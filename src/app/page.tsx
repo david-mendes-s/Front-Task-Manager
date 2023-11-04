@@ -23,7 +23,7 @@ interface SubTask {
   id:string;
   description: string;
   task_id:string;
-  completed: bollean
+  completed: boolean;
 }
 
 export default function Home() {
