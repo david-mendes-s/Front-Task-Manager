@@ -190,11 +190,11 @@ export default function Home() {
             <Title>{task.name}</Title>
             
             <GroupButton>
-                <button onClick={()=> openModal(task.id)}>
+                <button onClick={()=> openModal(task.id!)}>
                   <BiEditAlt size={22} color={'#fff'}/>
                 </button>
 
-                <button onClick={()=> handleDeleteTasks(task.id)}>
+                <button onClick={()=> handleDeleteTasks(task.id!)}>
                   <BiTrash size={18} color={'#fff'}/>
                 </button>
             </GroupButton>  
