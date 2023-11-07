@@ -7,6 +7,14 @@ export const Container = styled.div`
 
    gap: 10px;
    padding: 20px;
+
+   @media(max-width: 980px) {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   }
 `;
 
 export const Task = styled.div`
