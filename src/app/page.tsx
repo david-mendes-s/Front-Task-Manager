@@ -14,9 +14,9 @@ import ModalTask from './components/Modal';
 
 
 interface Task {
-  id:string;
-  name: string;
-  description: string;
+  id:string | undefined;
+  description: string | undefined;
+  name: string | undefined;
 }
 
 interface SubTask {
@@ -24,6 +24,17 @@ interface SubTask {
   description: string;
   task_id:string;
   completed: boolean;
+}
+
+interface ResponseSubTask {
+  id:string | undefined;
+  description: string | undefined;
+}
+
+interface ResponseTask {
+  id?:string | undefined;
+  description: string | undefined;
+  name: string | undefined;
 }
 
 export default function Home() {
@@ -63,7 +74,7 @@ export default function Home() {
     handleGetTasks();
   },[]);
 
-  async function handleCreateTask(name:string, description:string){
+  async function handleCreateTask({name, description}:ResponseTask){
     await api.post('/tasks/create/tasks', {
       name, description
     });
@@ -92,7 +103,7 @@ export default function Home() {
     setRefreshCounter(refreshCounter - 1);
   }
 
-  async function handleUpdateTasks(id:string, name:string, description:string){
+  async function handleUpdateTasks({id, description, name}:ResponseTask){
     
     await api.put('/tasks/update-task', {id, name, description});
     
@@ -104,7 +115,7 @@ export default function Home() {
     setRefreshCounter(refreshCounter + 1);
   }
 
-  async function handleCreateSubTask(id:string, description: string){
+  async function handleCreateSubTask({id, description}:ResponseSubTask){
     console.log(description+" - "+id);
 
     await api.post("/todo-list/create/todo-list-task", {task_id: id, description})
@@ -158,7 +169,7 @@ export default function Home() {
           onChange={e => setName(e.target.value)}
         />
           
-          <button onClick={()=> handleCreateTask(name, description)}>
+          <button onClick={()=> handleCreateTask({name, description})}>
             <BsFillSendFill size={18} color={'#fff'}/>
           </button>
         </div>
@@ -252,7 +263,8 @@ export default function Home() {
                 value={subTask}
                 onChange={e => setSubTask(e.target.value)}
               />
-              <button onClick={()=> handleCreateSubTask(itemTask?.id, subTask)}>
+              
+              <button onClick={()=> handleCreateSubTask({id:itemTask?.id, description: subTask})}>
                 <BsFillSendFill size={18} color={'#585D62'}/>
               </button>
             </div>
@@ -273,7 +285,7 @@ export default function Home() {
               onChange={e => setDescriptionUpdate(e.target.value)}
             />
             <button
-              onClick={()=> handleUpdateTasks(itemTask?.id, nameUpdate, descriptionUpdate)}
+              onClick={()=> handleUpdateTasks({id: itemTask?.id, name: nameUpdate, description: descriptionUpdate})}
             >Atualizar Task</button>
           </Form>
         </ContainerModal>
